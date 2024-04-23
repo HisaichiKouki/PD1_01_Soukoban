@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class GameManagerScript : MonoBehaviour
@@ -39,9 +40,9 @@ public class GameManagerScript : MonoBehaviour
         map = new int[,] {
             {1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0,0,0,1 },
-            {1,0,0,0,0,0,0,3,3,0,0,1 },
-            {1,0,0,0,2,0,0,3,0,0,0,1 },
-            {1,0,0,0,4,0,0,3,0,0,0,1 },
+            {1,0,0,0,3,0,0,3,3,0,0,1 },
+            {1,4,0,3,2,3,0,3,0,0,4,1 },
+            {1,0,0,0,3,0,0,3,3,0,0,1 },
             {1,0,0,0,0,0,0,3,0,0,0,1 },
             {1,0,0,0,0,0,0,0,0,0,0,1 },
             {1,1,1,1,1,1,1,1,1,1,1,1},
@@ -104,6 +105,10 @@ public class GameManagerScript : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
         if (!isClear)
         {
 
