@@ -152,9 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b7b7b8d93f5c745808d69dd522bdb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallPrefab: {fileID: 6779523918563783950, guid: 7bb0af779b9828549b6bf6e69353c9f4, type: 3}
   playerPrefab: {fileID: 3383464264880022503, guid: 224d0dd4ddb61c549b30a966eed75eed, type: 3}
   boxPrefab: {fileID: 7192246248319842215, guid: 50a695a206d177f43aba562d96b6fd86, type: 3}
   goalPrefab: {fileID: 1009870438521117176, guid: bfbf85ba94f5d7044a30ea61aa144c89, type: 3}
+  particlePrefab: {fileID: 6663304096553560683, guid: efd29f9dda361a44db14f270a3578b6b, type: 3}
   clearText: {fileID: 1896343728}
 --- !u!4 &142133661
 Transform:
@@ -453,7 +455,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -10}
+  m_LocalPosition: {x: 0, y: 4.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour
 {
-
+    public GameObject wallPrefab;
     public GameObject playerPrefab;
     public GameObject boxPrefab;
     public GameObject goalPrefab;
@@ -22,22 +22,27 @@ public class GameManagerScript : MonoBehaviour
 
     public enum ObjectType
     {
-        kTypePlayer = 1,
-        kTypeBox = 2,
-        kTypeGoal = 3,
+        kTypeWall=1,
+        kTypePlayer,
+        kTypeBox,
+        kTypeGoal,
     }
     // Start is called before the first frame update
     void Start()
     {
         Screen.SetResolution(1280, 720, false);
         map = new int[,] {
-            {0,0,0,0,0,1,0},
-            {0,0,0,0,2,0,0},
-            {0,0,0,2,2,0,0},
-            {0,0,0,3,3,0,0},
-            {0,0,0,0,3,0,0},
+            {1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0,0,0,1 },
+            {1,0,0,0,0,0,0,0,0,0,0,1 },
+            {1,0,0,0,2,0,0,0,0,0,0,1 },
+            {1,0,0,0,4,0,0,3,0,0,0,1 },
+            {1,0,0,0,0,0,0,0,0,0,0,1 },
+            {1,0,0,0,0,0,0,0,0,0,0,1 },
+            {1,1,1,1,1,1,1,1,1,1,1,1},
 
         };
+
         field = new GameObject
         [
             map.GetLength(0),
@@ -48,8 +53,15 @@ public class GameManagerScript : MonoBehaviour
         {
             for (int x = 0; x < map.GetLength(1); x++)
             {
-
-                if (map[y, x] == (int)ObjectType.kTypePlayer)
+                if (map[y, x] == (int)ObjectType.kTypeWall)
+                {
+                    //GameObject instance
+                    field[y, x] = Instantiate(
+                        wallPrefab,
+                        new Vector3(x - map.GetLength(1) / 2, map.GetLength(0) - y, 0),
+                        Quaternion.identity);
+                }
+                else if (map[y, x] == (int)ObjectType.kTypePlayer)
                 {
                     //GameObject instance
                     field[y, x] = Instantiate(
@@ -188,6 +200,7 @@ public class GameManagerScript : MonoBehaviour
 
         if (moveTo.x < 0 || moveTo.x >= field.GetLength(1)) { return false; }
         if (moveTo.y < 0 || moveTo.y >= field.GetLength(0)) { return false; }
+        if (field[moveTo.y, moveTo.x] != null && field[moveTo.y, moveTo.x].tag == "Wall") { return false; }
         if (field[moveTo.y, moveTo.x] != null && field[moveTo.y, moveTo.x].tag == "Box")
         {
             Vector2Int velocity = moveTo - moveFrom;
@@ -197,7 +210,7 @@ public class GameManagerScript : MonoBehaviour
         field[moveFrom.y, moveFrom.x].transform.position = new Vector3(moveTo.x - field.GetLength(1) / 2, field.GetLength(0) - moveTo.y, 0);
         field[moveTo.y, moveTo.x] = field[moveFrom.y, moveFrom.x];
         field[moveFrom.y, moveFrom.x] = null;
-      
+
         return true;
         //if (moveTo < 0 || moveTo >= map.Length)
         //{
@@ -256,7 +269,7 @@ public class GameManagerScript : MonoBehaviour
            new Vector3(field[moveFrom.y, moveFrom.x].transform.position.x, field[moveFrom.y, moveFrom.x].transform.position.y, 0),
            Quaternion.identity);
         }
-       
+
     }
 }
 
