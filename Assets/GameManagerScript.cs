@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 
 
@@ -18,11 +19,14 @@ public class GameManagerScript : MonoBehaviour
     public GameObject clearText;
     bool isClear = false;
 
+    public int kMaxPower;
+    private int isPower;
+
 
 
     public enum ObjectType
     {
-        kTypeWall=1,
+        kTypeWall = 1,
         kTypePlayer,
         kTypeBox,
         kTypeGoal,
@@ -30,14 +34,15 @@ public class GameManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isPower = kMaxPower;
         Screen.SetResolution(1280, 720, false);
         map = new int[,] {
             {1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0,0,0,1 },
-            {1,0,0,0,0,0,0,0,0,0,0,1 },
-            {1,0,0,0,2,0,0,0,0,0,0,1 },
+            {1,0,0,0,0,0,0,3,3,0,0,1 },
+            {1,0,0,0,2,0,0,3,0,0,0,1 },
             {1,0,0,0,4,0,0,3,0,0,0,1 },
-            {1,0,0,0,0,0,0,0,0,0,0,1 },
+            {1,0,0,0,0,0,0,3,0,0,0,1 },
             {1,0,0,0,0,0,0,0,0,0,0,1 },
             {1,1,1,1,1,1,1,1,1,1,1,1},
 
@@ -107,15 +112,16 @@ public class GameManagerScript : MonoBehaviour
             {
                 Vector2Int playerIndex = GetPlayerIndex();
                 SpownParticle(playerIndex);
-                MoveNumber("Player", playerIndex, new Vector2Int(playerIndex.x + 1, playerIndex.y));
+                isPower = kMaxPower;
+                MoveNumber("Player", playerIndex, new Vector2Int(playerIndex.x + 1, playerIndex.y), isPower);
                 //PrintArray();
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 Vector2Int playerIndex = GetPlayerIndex();
                 SpownParticle(playerIndex);
-
-                MoveNumber("Player", playerIndex, new Vector2Int(playerIndex.x - 1, playerIndex.y));
+                isPower = kMaxPower;
+                MoveNumber("Player", playerIndex, new Vector2Int(playerIndex.x - 1, playerIndex.y), isPower);
 
                 // PrintArray();
             }
@@ -123,8 +129,9 @@ public class GameManagerScript : MonoBehaviour
             {
                 Vector2Int playerIndex = GetPlayerIndex();
                 SpownParticle(playerIndex);
+                isPower = kMaxPower;
 
-                MoveNumber("Player", playerIndex, new Vector2Int(playerIndex.x, playerIndex.y - 1));
+                MoveNumber("Player", playerIndex, new Vector2Int(playerIndex.x, playerIndex.y - 1), isPower);
 
                 //PrintArray();
             }
@@ -132,8 +139,8 @@ public class GameManagerScript : MonoBehaviour
             {
                 Vector2Int playerIndex = GetPlayerIndex();
                 SpownParticle(playerIndex);
-
-                MoveNumber("Player", playerIndex, new Vector2Int(playerIndex.x, playerIndex.y + 1));
+                isPower = kMaxPower;
+                MoveNumber("Player", playerIndex, new Vector2Int(playerIndex.x, playerIndex.y + 1), isPower);
 
                 // PrintArray();
             }
@@ -194,17 +201,18 @@ public class GameManagerScript : MonoBehaviour
     //    return -1;
     //}
 
-    bool MoveNumber(string tag, Vector2Int moveFrom, Vector2Int moveTo)
+    bool MoveNumber(string tag, Vector2Int moveFrom, Vector2Int moveTo,int power)
     {
-        Debug.Log(tag + ", moveFrome" + moveFrom + ", moveTo" + moveTo);
 
+        Debug.Log(tag + ", moveFrome" + moveFrom + ", moveTo" + moveTo+", power"+power);
+        if (power-- < 0) { return false; }
         if (moveTo.x < 0 || moveTo.x >= field.GetLength(1)) { return false; }
         if (moveTo.y < 0 || moveTo.y >= field.GetLength(0)) { return false; }
         if (field[moveTo.y, moveTo.x] != null && field[moveTo.y, moveTo.x].tag == "Wall") { return false; }
         if (field[moveTo.y, moveTo.x] != null && field[moveTo.y, moveTo.x].tag == "Box")
         {
             Vector2Int velocity = moveTo - moveFrom;
-            bool success = MoveNumber(tag, moveTo, moveTo + velocity);
+            bool success = MoveNumber(tag, moveTo, moveTo + velocity,power);
             if (!success) { return false; }
         }
         field[moveFrom.y, moveFrom.x].transform.position = new Vector3(moveTo.x - field.GetLength(1) / 2, field.GetLength(0) - moveTo.y, 0);
