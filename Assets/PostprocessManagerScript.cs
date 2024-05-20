@@ -10,11 +10,15 @@ public class PostprocessManagerScript : MonoBehaviour
     private PostProcessProfile postProcessProfile;
     private Bloom bloomField;
 
+    private ChromaticAberration chromaticAberration;
+
     [SerializeField, Header("ê^Ç¡îíÇ…Ç»ÇÈÇ‹Ç≈ÇÃéûä‘")] private float changeTime;
 
     float bloomCount;
     bool isFlash = false;
     bool isCountMax = false;
+
+    public void SetCAvalue(float value) { chromaticAberration.intensity.value = value; }
 
     public void OnIsFlash() { isFlash = true; }
     public bool GetCountMax() { return isCountMax; }
@@ -23,12 +27,14 @@ public class PostprocessManagerScript : MonoBehaviour
     {
         postProcessProfile = postProcessVolume.profile;
         postProcessProfile.TryGetSettings<Bloom>(out bloomField);
+        postProcessProfile.TryGetSettings<ChromaticAberration>(out chromaticAberration);
         //if ()
         //{
         //    // depthOfField.focusDistance.value = 0.1f;
 
         //}
         bloomField.intensity.value = 0.0f;
+        chromaticAberration.intensity.value = 0.0f;
         isFlash = false;
     }
 
