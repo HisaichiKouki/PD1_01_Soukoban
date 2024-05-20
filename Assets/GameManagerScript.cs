@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,7 @@ public class GameManagerScript : MonoBehaviour
 
     private PostprocessManagerScript postprocess;
 
+    private MoveScript movescript;
 
     public enum ObjectType
     {
@@ -36,6 +38,7 @@ public class GameManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        movescript=GetComponent<MoveScript>();
         postprocess = FindAnyObjectByType<PostprocessManagerScript>();
         isPower = kMaxPower;
         Screen.SetResolution(1280, 720, false);
@@ -230,9 +233,18 @@ public class GameManagerScript : MonoBehaviour
             bool success = MoveNumber(tag, moveTo, moveTo + velocity,power);
             if (!success) { return false; }
         }
-        field[moveFrom.y, moveFrom.x].transform.position = new Vector3(moveTo.x - field.GetLength(1) / 2, field.GetLength(0) - moveTo.y, 0);
+        // field[moveFrom.y, moveFrom.x].transform.position = new Vector3(moveTo.x - field.GetLength(1) / 2, field.GetLength(0) - moveTo.y, 0);
+
+        Vector3 movetoPos = new Vector3(
+            moveTo.x - field.GetLength(1) / 2, map.GetLength(0) - moveTo.y, 0
+            );
+
+        field[moveFrom.y, moveFrom.x].GetComponent<MoveScript>().MoveTo(movetoPos);
+
         field[moveTo.y, moveTo.x] = field[moveFrom.y, moveFrom.x];
         field[moveFrom.y, moveFrom.x] = null;
+
+
 
         return true;
         //if (moveTo < 0 || moveTo >= map.Length)
@@ -294,5 +306,15 @@ public class GameManagerScript : MonoBehaviour
         }
 
     }
+
+    //void MoveNumber(Vector2Int moveFrom,Vector2Int moveTo)
+    //{
+
+    //    Vector3 movetoPos=new Vector3(
+    //        moveTo.x - field.GetLength(1) / 2, map.GetLength(0)-moveTo.y,0
+    //        );
+
+    //    field[moveFrom.y,moveFrom.x].GetComponent<MoveScript>().MoveTo( movetoPos );
+    //}
 }
 
