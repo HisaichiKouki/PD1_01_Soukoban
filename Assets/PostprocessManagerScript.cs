@@ -51,7 +51,7 @@ public class PostprocessManagerScript : MonoBehaviour
             }
             bloomCount += Time.deltaTime;
 
-            bloomField.intensity.value = bloomCount * 30.0f / changeTime;
+            bloomField.intensity.value = bloomCount * 25.0f / changeTime;
         }
 
     }
