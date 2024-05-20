@@ -23,6 +23,7 @@ public class GameManagerScript : MonoBehaviour
     public int kMaxPower;
     private int isPower;
 
+    private PostprocessManagerScript postprocess;
 
 
     public enum ObjectType
@@ -35,6 +36,7 @@ public class GameManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        postprocess = FindAnyObjectByType<PostprocessManagerScript>();
         isPower = kMaxPower;
         Screen.SetResolution(1280, 720, false);
         map = new int[,] {
@@ -153,12 +155,20 @@ public class GameManagerScript : MonoBehaviour
             if (isCleard())
             {
                 isClear = true;
-                clearText.SetActive(true);
+               
+                postprocess.OnIsFlash();
                 Debug.Log("clear");
             }
         }
+        else
+        {
+            if (postprocess.GetCountMax())
+            {
+                clearText.SetActive(true);
+            }
+        }
 
-
+       
     }
 
     //void PrintArray()
