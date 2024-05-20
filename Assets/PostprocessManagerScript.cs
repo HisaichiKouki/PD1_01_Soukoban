@@ -51,7 +51,9 @@ public class PostprocessManagerScript : MonoBehaviour
             }
             bloomCount += Time.deltaTime;
 
-            bloomField.intensity.value = bloomCount * 25.0f / changeTime;
+            float easeT= bloomCount / changeTime;
+            bloomField.intensity.value=Mathf.Lerp(0, 50, easeT);
+            //bloomField.intensity.value = bloomCount * 50.0f / changeTime;
         }
 
     }
