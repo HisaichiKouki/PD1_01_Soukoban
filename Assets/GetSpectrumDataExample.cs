@@ -20,9 +20,9 @@ public class GetSpectrumDataExample : MonoBehaviour
     }
     void Update()
     {
-        float[] spectrum = new float[256];
+        float[] spectrum = new float[64];
 
-    AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Rectangular);
+    AudioListener.GetSpectrumData(spectrum, 0, FFTWindow.Triangle);
 
         for (int i = 1; i < spectrum.Length - 1; i++)
         {
@@ -38,7 +38,7 @@ public class GetSpectrumDataExample : MonoBehaviour
         {
             low++;
         }
-        for (int i = senceStart; i < senceStart+1; i++)
+        for (int i = senceStart; i < senceStart+2; i++)
         {
             low += spectrum[i];
         }

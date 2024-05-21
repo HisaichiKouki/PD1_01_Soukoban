@@ -444,8 +444,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   t: 0.2
-  rangeSize: 15
-  senceStart: 52
+  rangeSize: 14.6
+  senceStart: 1
   targetObj: {fileID: 1896343728}
 --- !u!81 &674896089
 AudioListener:
@@ -778,9 +778,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a82d7d184399c2b4ea93a2277e6c6ad0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 60d7bbbafef0901458c8e24b5eecefc4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.172
   m_Pitch: 1
   Loop: 1
   Mute: 0
