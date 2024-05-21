@@ -11,6 +11,7 @@ public class GetSpectrumDataExample : MonoBehaviour
     public int senceStart;
 
     PostprocessManagerScript postprocess;
+    [SerializeField] private GameObject targetObj;
 
     private void Start()
     {
@@ -37,14 +38,14 @@ public class GetSpectrumDataExample : MonoBehaviour
         {
             low++;
         }
-        for (int i = senceStart; i < senceStart+5; i++)
+        for (int i = senceStart; i < senceStart+1; i++)
         {
             low += spectrum[i];
         }
             
         low = _lastLow * (1 - t) + low * t;
         transform.localScale = Vector3.one * rangeSize * low + Vector3.one;
-
+        targetObj.transform.localScale = Vector3.one*2+transform.localScale;
         float effectValue = Mathf.Clamp(low * rangeSize, 0,1);
         postprocess.SetCAvalue(effectValue);
         _lastLow = low;
