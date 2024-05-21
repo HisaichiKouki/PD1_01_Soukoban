@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +16,6 @@ public class GameManagerScript : MonoBehaviour
     public GameObject particlePrefab;
     int[,] map;
     GameObject[,] field;
-    string debugText = "";
     public GameObject clearText;
     bool isClear = false;
 
